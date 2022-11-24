@@ -1,5 +1,5 @@
+{{-- @include('layouts.navigation') --}}
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-
 <div class="m-auto w-4/5 py-14">
     <div class="text-center">
         <span class="uppercase text-blue-500 font-bold text-5xl italic"> 
@@ -7,10 +7,18 @@
         </span>
     </div>
     @if (Auth::user())
+    <a href="/dashboard"
+    class="px-6 py-3 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200">Back</a>
     <div class="pt-4">
         <a href="users/create"
         class="border-b-2 pb-2 border-dotted italic text-gray-500">
             Add a new user &rarr;
+        </a>
+    </div>
+    <div class="pt-4">
+        <a href="users/trashed"
+        class="border-b-2 pb-2 border-dotted italic text-gray-500">
+            Trashed Users &rarr;
         </a>
     </div>
     @else
@@ -28,7 +36,13 @@
             href="users/{{ $user->id}}/edit">
                 Edit &rarr;
             </a>
-             <form action="users/{{$user->id}}" class="pt-3" method="POST">
+            @if ( $user->role == 'Admin')
+            <a
+            class="border-b-2 pb-2 border-dotted italic text-red-500">
+               Disabled Delete
+            </a> 
+            @else
+            <form action="users/{{$user->id}}" class="pt-3" method="POST">
                 @csrf
                 @method('delete')
                 <button 
@@ -37,6 +51,8 @@
                 Delete &rarr;
                 </button>
             </form>
+            @endif
+
         </div>
         @endif
       

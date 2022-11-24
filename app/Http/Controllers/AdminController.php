@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -43,7 +44,7 @@ class AdminController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
-            'password' =>$request->input('password'),
+            'password' =>Hash::make($request->input('password')),
             'address' => $request->input('address'),
             'role' => $request->input('role'),
             'avatar' => $newImageName,
@@ -84,14 +85,15 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-         //$newImageName = time() .'-' .$request->name . '.' . $request->image->extension();
+         $newImageName = time() .'-' .$request->name . '.' . $request->avatar->getClientOriginalExtension();
+         $request->avatar->move(public_path('images'),$newImageName);
         $users=User::where('id',$id)
            ->update([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
-           // 'image_path' => $newImageName
+            'avatar' => $newImageName
 
         ]);
         return redirect('/users');

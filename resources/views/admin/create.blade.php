@@ -1,12 +1,12 @@
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 <div class="m-auto w-4/8 py-24">
     <div class="text-center">
+        <a href="/users"
+        class="px-6 py-3 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200"> Go Back</a>
         <h1 class="text-5xl uppercase bold"> 
             Create  User
         </h1>
-       
     </div>
-
     <div class="flex justify-center pt-20">
        <form action="/users/store" method="POST" enctype="multipart/form-data">
         @csrf

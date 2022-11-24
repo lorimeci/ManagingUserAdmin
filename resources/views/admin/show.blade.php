@@ -1,10 +1,12 @@
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 <div class="m-auto w-4/5 py-24">
     <div class="text-center">
+        <div class="mb-4" >
         <img 
-        src="{{ asset('images/' . $users->avatar)}}" 
-        class="w-3/2 mb-3 shadow-xl"
-        alt="">
+        src="{{ asset('images' . $users->avatar)}}" 
+        class="rounded-full w-32 mb-4 mx-auto"
+        alt="Avatar">
+        </div>
         <h1 class="text-5xl uppercase bold"> 
             {{$users->name}}
         </h1>

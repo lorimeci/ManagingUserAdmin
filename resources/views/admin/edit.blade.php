@@ -8,7 +8,7 @@
     </div>
     
     <div class="flex justify-center pt-20">
-       <form action="/users/{{ $users->id }}/update" method="POST">
+       <form action="/users/{{ $users->id }}/update" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
         <div class="block">
@@ -46,7 +46,7 @@
             class="block shadow-5xl mb-10 p-2 w-80 italic
             placeholder-gray-400"
             name="avatar"
-            value = "{{$users->avatar}}">
+            value = "{{asset(public_path('images') .$users->avatar)}}">
 
             <button type ="submit" class="bg-green-500 block shadow-5xl mb-10 p-2 w-80 uppercase font-bold">
                 Submit
