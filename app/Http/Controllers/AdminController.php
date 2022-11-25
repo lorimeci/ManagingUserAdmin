@@ -88,11 +88,23 @@ class AdminController extends Controller
     public function update(ValidationUpdateRequest $request, $id)
     { 
         $request ->validated();
-        if( isset($request->avatar) )
-        {
-           $name = $request->file('avatar')->getClientOriginalName();
-          $request->file('avatar')->storeAs('public/images', $name);
-        }
+        //Does not work 
+        // if( $request->hasFile('avatar'))
+        // {
+        //     $getId = User::find('id',$id);
+        //     $getId->images()->delete();  // --> this delete from database table $post->id
+
+        //     $uploadPicture = array();
+        //     foreach ($request->file('avatar') as $photo) {
+        //         $file      = $photo;
+        //         $filename  = $file->getClientOriginalName();
+        //         $picture   = date('His').'-'.$filename;
+
+        //         $file->move(public_path('images/'), $picture);
+
+        //        $newfilename = array_push($uploadPicture, new (array('image' => 'images/'. $picture)));
+        //     }
+        // }
         $newImageName = time() .'-' .$request->name . '.' . $request->avatar->extension();
         $request->avatar->move(public_path('images'),$newImageName);
         $users=User::where('id',$id)
