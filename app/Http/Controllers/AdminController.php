@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ValidationRequest;
+use App\Http\Requests\ValidationUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -35,9 +37,9 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ValidationRequest $request)
     {
-        // $request ->validated();
+         $request ->validated();
          $newImageName = time() .'-' .$request->name . '.' . $request->avatar->extension();
          $request->avatar->move(public_path('images'),$newImageName);
         $users=User::create([
@@ -83,10 +85,16 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-         $newImageName = time() .'-' .$request->name . '.' . $request->avatar->extension();
-         $request->avatar->move(public_path('images'),$newImageName);
+    public function update(ValidationUpdateRequest $request, $id)
+    { 
+        $request ->validated();
+        if( isset($request->avatar) )
+        {
+           $name = $request->file('avatar')->getClientOriginalName();
+          $request->file('avatar')->storeAs('public/images', $name);
+        }
+        $newImageName = time() .'-' .$request->name . '.' . $request->avatar->extension();
+        $request->avatar->move(public_path('images'),$newImageName);
         $users=User::where('id',$id)
            ->update([
             'name' => $request->input('name'),

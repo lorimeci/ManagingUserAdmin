@@ -1,78 +1,30 @@
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-<div class="m-auto w-4/8 py-24">
-    <div class="text-center">
-        <a href="/users"
-        class="px-6 py-3 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200"> Go Back</a>
-        <h1 class="text-5xl uppercase bold"> 
-            Create  User
-        </h1>
-    </div>
-    <div class="flex justify-center pt-20">
-       <form action="/users/store" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="block">
-            <input 
-            type="text"
-            class="block shadow-5xl mb-10 p-2 w-80 italic
-            placeholder-gray-400"
-            name="name"
-            placeholder="Name">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __(' Create User') }}
+        </h2>
+    </x-slot>
 
-            <input 
-            type="text"
-            class="block shadow-5xl mb-10 p-2 w-80 italic
-            placeholder-gray-400"
-            name="email"
-            placeholder="Email ..">
+    <div class="py-10">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="">
+                    <a href="/users"
+                     class="px-6 py-3 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200">
+                        View all Users
+                    </a>
+                </div>
+            </div>
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="">
+                    @include('admin.partials.create-form')
+                </div>
+            </div>
 
-            <input 
-            type="text"
-            class="block shadow-5xl mb-10 p-2 w-80 italic
-            placeholder-gray-400"
-            name="phone"
-            placeholder="Phone ...">
-            
-            <input 
-            type="password"
-            class="block shadow-5xl mb-10 p-2 w-80 italic
-            placeholder-gray-400"
-            name="password"
-            placeholder="Password ...">
-
-            <input 
-            type="text"
-            class="block shadow-5xl mb-10 p-2 w-80 italic
-            placeholder-gray-400"
-            name="address"
-            placeholder="Address ...">
-
-            <input 
-            type="text"
-            class="block shadow-5xl mb-10 p-2 w-80 italic
-            placeholder-gray-400"
-            name="role"
-            placeholder="Role ...">
-
-            <input 
-            type="file"
-            class="block shadow-5xl mb-10 p-2 w-80 italic
-            placeholder-gray-400"
-            name="avatar">
-
-            <button type="submit" class="bg-green-500 block shadow-5xl mb-10 p-2 w-80 uppercase font-bold">
-                Submit
-            </button>
+           
+    
         </div>
-       </form>
+       
     </div>
-    @if ($errors->any()){
-        <div class="w-4/8 m-auto text-center">
-            @foreach ($errors->all() as $error)
-                <li class=" text-red-500 list-none"> 
-                    {{$error}}
-                </li>
-            @endforeach
-        </div>
-       }
-       @endif
-</div>
+</x-app-layout>
