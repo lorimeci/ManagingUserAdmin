@@ -9,7 +9,7 @@ class TrashedUsersController extends Controller
 {
     public function trashed()
     {
-        $users= User::onlyTrashed()->paginate(4);
+        $users= User::onlyTrashed()->paginate(2);
         return view('admin.trashed',compact('users'));
     }
     

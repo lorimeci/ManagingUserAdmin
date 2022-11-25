@@ -2,12 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckRoleMiddleware
+class IsUserMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,16 +17,15 @@ class CheckRoleMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-
-        if (Auth::user()->role == 'Admin') {
-            return redirect()->route('users')
-                ->withErrors(trans('app.you_cannot_delete_admin'));
+        if(!Auth::check()){
+            return redirect()->route('login');
         }
-        if ( User::id() == Auth::id() ) {
-            return redirect()->route('users')
-                ->withErrors(trans('app.you_cannot_delete_yourself'));
+
+        if(Auth::user()->role == 'Guest'){
+            return $next($request);
         }
         
-        return $next($request);
+        return redirect()->back()->with('unauthorised', 'You are 
+          unauthorised to access this page');
     }
 }
