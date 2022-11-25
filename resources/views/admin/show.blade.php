@@ -3,7 +3,7 @@
     <div class="text-center">
         <div class="mb-4" >
         <img 
-        src="{{ asset('images' . $users->avatar)}}" 
+        src="{{ asset('images/' . $users->avatar)}}" 
         class="rounded-full w-32 mb-4 mx-auto"
         alt="Avatar">
         </div>

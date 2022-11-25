@@ -85,7 +85,7 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $newImageName = time() .'-' .$request->name . '.' . $request->avatar->getClientOriginalExtension();
+         $newImageName = time() .'-' .$request->name . '.' . $request->avatar->extension();
          $request->avatar->move(public_path('images'),$newImageName);
         $users=User::where('id',$id)
            ->update([

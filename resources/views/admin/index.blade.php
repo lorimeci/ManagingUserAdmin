@@ -36,10 +36,10 @@
             href="users/{{ $user->id}}/edit">
                 Edit &rarr;
             </a>
-            @if ( $user->role == 'Admin')
+            @if ( $user->id== 1)
             <a
             class="border-b-2 pb-2 border-dotted italic text-red-500">
-               Disabled Delete
+               {{-- Disabled Delete --}}
             </a> 
             @else
             <form action="users/{{$user->id}}" class="pt-3" method="POST">
