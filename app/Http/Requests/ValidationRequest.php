@@ -27,13 +27,13 @@ class ValidationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>['required','string'],
-            'email'=>['required','email'],
-            'phone'=>'required|numeric|min:10',
-            'password'=>['required','min:8'],
-            'address'=>['required'],
-            'role'=>['required',new Enum(ServerStatus::class)],
-            'avatar'=>['required','image','mimes:png,jpg,jpeg','max:10000'],
+            'name'=>['required','string','max:225'],
+            'email'=>['required','unique:users','email','max:225'],
+            'phone'=>'required|numeric|unique:users|min:10',
+            'password'=>['required','min:8','max:225'],
+            'address'=>['required','max:225'],
+            'role'=>['required', 'in:Admin,Guest'],
+            'avatar' => ['required','image','mimes:png,jpg,jpeg','max:10000'],
         ];
     }
 

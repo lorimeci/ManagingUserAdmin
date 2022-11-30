@@ -10,7 +10,7 @@
          class="block shadow-5xl mb-4 w-80 italic
          placeholder-gray-400"
          name = "name"
-         value = "{{$users->name}}">
+         value = "{{ old('name') ? old('name') : $users->name }}">
                 @error('name')
                 <li class=" text-red-500 mb-2 list-none"> 
                     {{$message}}
@@ -21,7 +21,7 @@
          class="block shadow-5xl mb-4  w-80 italic
          placeholder-gray-400"
          name="email"
-         value = "{{$users->email}}">
+         value = "{{ old('name') ? old('name') : $users->email }}">
                 @error('email')
                 <li class=" text-red-500 mb-4 list-none"> 
                     {{$message}}
@@ -32,7 +32,7 @@
          class = "block shadow-5xl mb-4  w-80 italic
          placeholder-gray-400"
          name = "phone"
-         value = "{{$users->phone}}">
+         value = "{{ old('name') ? old('name') : $users->phone }}">
                 @error('phone')
                 <li class=" text-red-500 mb-4 list-none"> 
                     {{$message}}
@@ -43,7 +43,7 @@
          class = "block shadow-5xl mb-4  w-80 italic
          placeholder-gray-400"
          name = "address"
-         value = "{{$users->address}}">
+         value = "{{ old('name') ? old('name') : $users->address }}">
                 @error('address')
                 <li class=" text-red-500 mb-4 list-none"> 
                     {{$message}}

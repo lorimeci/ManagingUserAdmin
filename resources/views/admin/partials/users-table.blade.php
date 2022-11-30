@@ -1,4 +1,4 @@
-  <table class="min-w-full">
+<table class="min-w-full">
     <thead class="border-b">
       <tr>
           <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
@@ -18,9 +18,9 @@
           </th>
       </tr>
     </thead>
-    <tbody>
-      @foreach ($users as $user)
-        <tr class="border-b">
+  <tbody>
+    @foreach ($users as $user)
+      <tr class="border-b">
           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
             {{ $user->id}}
           </td>
@@ -35,6 +35,7 @@
           </td>
           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               @if(isset(Auth::user()->id))
+              <div class ="flex-col space-y-2 ">
                 <a 
                  class=" px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                  href="/users/{{ $user->id}}/show">
@@ -62,8 +63,9 @@
                       </form>
                 @endif
               @endif
+              </div>  
           </td>
         </tr>
-      @endforeach
-      </tbody>
-    </table>
+    @endforeach
+  </tbody>
+</table>

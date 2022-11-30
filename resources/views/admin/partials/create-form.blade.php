@@ -8,7 +8,8 @@
                 class="block shadow-5xl mb-4 w-80 italic
                 placeholder-gray-400"
                 name="name"
-                placeholder="Name">
+                placeholder="Name"
+                value="{{old('name')}}">
                     @error('name')
                         <li class=" text-red-500 mb-4 list-none"> 
                             {{$message}}
@@ -19,7 +20,8 @@
                 class="block shadow-5xl mb-4  w-80 italic 
                 placeholder-gray-400"
                 name="email"
-                placeholder="Email ..">
+                placeholder="Email .."
+                value="{{old('email')}}">
                         @error('email')
                         <li class=" text-red-500 mb-4 list-none"> 
                             {{$message}}
@@ -30,7 +32,8 @@
                 class="block shadow-5xl mb-4  w-80 italic
                 placeholder-gray-400"
                 name="phone"
-                placeholder="Phone ...">
+                placeholder="Phone ..."
+                value="{{old('phone')}}">
                         @error('phone')
                         <li class=" text-red-500 mb-4 list-none"> 
                             {{$message}}
@@ -41,7 +44,8 @@
                 class="block shadow-5xl mb-4  w-80 italic
                 placeholder-gray-400"
                 name="password"
-                placeholder="Password ...">
+                placeholder="Password ..."
+                >
                         @error('password')
                         <li class=" text-red-500  mb-4 list-none"> 
                             {{$message}}
@@ -52,23 +56,25 @@
                 class="block shadow-5xl mb-4  w-80 italic
                 placeholder-gray-400"
                 name="address"
-                placeholder="Address ...">
+                placeholder="Address ..."
+                value="{{old('address')}}">
                         @error('address')
                         <li class=" text-red-500  mb-4 list-none"> 
                             {{$message}}
                         </li>
                         @enderror
-                <input 
-                type="text"
-                class="block shadow-5xl mb-4 w-80 italic
-                placeholder-gray-400"
-                name="role"
-                placeholder="Role ...">
-                        @error('role')
-                        <li class=" text-red-500 mb-4 list-none"> 
-                            {{$message}}
-                        </li>
-                        @enderror
+                <select class="form-control mb-4"  
+                name="role" 
+                placeholder="Select Role" >
+                    <option value="" disabled selected> Select Role </option>     
+                    <option value="Admin">Admin</option>
+                    <option value="Guest">Guest</option>
+                </select>
+                @error('role')
+                <li class=" text-red-500  mb-4 list-none"> 
+                    {{$message}}
+                </li>
+                @enderror
                 <input 
                 type="file"
                 class="block shadow-5xl mb-4  w-80 italic
@@ -86,13 +92,4 @@
             </div>
     </form>
 </div>
-    {{-- @if ($errors->any())
-        <div class="w-4/8 m-auto text-center">
-            @foreach ($errors->all() as $error)
-                <li class=" text-red-500 list-none"> 
-                    {{$error}}
-                </li>
-            @endforeach
-        </div>
-    
-    @endif --}}
+ 

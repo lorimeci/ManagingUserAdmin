@@ -6,7 +6,10 @@ use App\Http\Requests\ValidationRequest;
 use App\Http\Requests\ValidationUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File as FacadesFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Input\Input;
 
 class AdminController extends Controller
@@ -40,20 +43,29 @@ class AdminController extends Controller
      */
     public function store(ValidationRequest $request)
     {
-        $request ->validated();
-        $newImageName = time() .'-' .$request->name . '.' . $request->avatar->extension();
-        $request->avatar->move(public_path('images'),$newImageName);
-  
-        $users=User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
-            'password' =>Hash::make($request->input('password')),
-            'address' => $request->input('address'),
-            'role' => $request->input('role'),
-            'avatar' => $newImageName,
-        ]);
+        DB::beginTransaction();
+        try{
+            $request ->validated();
+            $newImageName = time() .'-' .$request->name . '.' . $request->avatar->extension();
+            $request->avatar->move(public_path('images'),$newImageName);
+      
+            $users=User::create([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'phone' => $request->input('phone'),
+                'password' =>Hash::make($request->input('password')),
+                'address' => $request->input('address'),
+                'role' => $request->input('role'),
+                'avatar' => $newImageName,
+            ]);
+        
+        DB::commit();
         return redirect('/users');
+        }catch(\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -89,18 +101,34 @@ class AdminController extends Controller
      */
     public function update(ValidationUpdateRequest $request, $id)
     { 
-        $request ->validated();
-        $input = $request->all();
-        $users = User::find($id);
-            if($request->hasFile('avatar')){
-                $file = $request->file('avatar');
-                $name = time() .'-' .$file->getClientOriginalName();
-                $file = $file->move(public_path('images') ,$name);
-                $users ->avatar = $name ;
-            }
-            $users->save();
-      
-        return redirect('/users');
+        DB::beginTransaction();
+        try {
+                $request ->validated();
+                $users = User::find($id);
+                    if($request->hasFile('avatar')){
+                         $imagepath = public_path('images/' .$users->avatar);
+                        if(FacadesFile::exists($imagepath)){
+                            FacadesFile::delete($imagepath);
+                        }else{
+                            $file = $request->file('avatar');
+                            $name = time() .'-' .$request->name . '.' . $request->avatar->extension();
+                            $file = $file->move(public_path('images') ,$name);
+                            $users ->avatar = $name;
+                        }
+                    }
+                $users->name = $request->input('name'); 
+                $users->email = $request->input('email');
+                $users->phone = $request->input('phone'); 
+                $users->address  = $request->input('address');  
+                $users->update();
+               
+                 DB::commit();
+                 return redirect('/users');
+        }catch(\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return back()->with('error', $e->getMessage());
+        }
   
     }
 
@@ -112,7 +140,7 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        $user=User::find($id)->delete();
+        $user=User::findOrFail($id)->delete();
         return redirect('/users');
     }
 }
