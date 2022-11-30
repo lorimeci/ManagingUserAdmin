@@ -93,7 +93,7 @@ class AdminController extends Controller
         $input = $request->all();
         $users = User::find($id);
             if($request->hasFile('avatar')){
-                $file = User::file('avatar');
+                $file = $request->file('avatar');
                 $name = time() .'-' .$file->getClientOriginalName();
                 $file = $file->move(public_path('images') ,$name);
                 $users ->avatar = $name ;
