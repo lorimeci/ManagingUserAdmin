@@ -29,7 +29,7 @@ class ValidationUpdateRequest extends FormRequest
             'email'=>['required','email'],
             'phone'=>'required|numeric|min:10',
             'address'=>['required'],
-            'avatar'=>['required','sometimes','image','mimes:png,jpg,jpeg','max:10000'],
+            'avatar'=>['nullable','sometimes','image','mimes:png,jpg,jpeg','max:10000'],
         ];
     }
 }

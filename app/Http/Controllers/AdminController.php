@@ -7,6 +7,7 @@ use App\Http\Requests\ValidationUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\Console\Input\Input;
 
 class AdminController extends Controller
 {
@@ -39,9 +40,10 @@ class AdminController extends Controller
      */
     public function store(ValidationRequest $request)
     {
-         $request ->validated();
-         $newImageName = time() .'-' .$request->name . '.' . $request->avatar->extension();
-         $request->avatar->move(public_path('images'),$newImageName);
+        $request ->validated();
+        $newImageName = time() .'-' .$request->name . '.' . $request->avatar->extension();
+        $request->avatar->move(public_path('images'),$newImageName);
+  
         $users=User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
@@ -88,35 +90,18 @@ class AdminController extends Controller
     public function update(ValidationUpdateRequest $request, $id)
     { 
         $request ->validated();
-        //Does not work 
-        // if( $request->hasFile('avatar'))
-        // {
-        //     $getId = User::find('id',$id);
-        //     $getId->images()->delete();  // --> this delete from database table $post->id
-
-        //     $uploadPicture = array();
-        //     foreach ($request->file('avatar') as $photo) {
-        //         $file      = $photo;
-        //         $filename  = $file->getClientOriginalName();
-        //         $picture   = date('His').'-'.$filename;
-
-        //         $file->move(public_path('images/'), $picture);
-
-        //        $newfilename = array_push($uploadPicture, new (array('image' => 'images/'. $picture)));
-        //     }
-        // }
-        $newImageName = time() .'-' .$request->name . '.' . $request->avatar->extension();
-        $request->avatar->move(public_path('images'),$newImageName);
-        $users=User::where('id',$id)
-           ->update([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
-            'address' => $request->input('address'),
-            'avatar' => $newImageName
-
-        ]);
+        $input = $request->all();
+        $users = User::find($id);
+            if($request->hasFile('avatar')){
+                $file = User::file('avatar');
+                $name = time() .'-' .$file->getClientOriginalName();
+                $file = $file->move(public_path('images') ,$name);
+                $users ->avatar = $name ;
+            }
+            $users->save();
+      
         return redirect('/users');
+  
     }
 
     /**

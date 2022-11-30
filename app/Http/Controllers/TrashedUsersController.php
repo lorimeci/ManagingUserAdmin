@@ -10,7 +10,7 @@ class TrashedUsersController extends Controller
     public function trashed()
     {
         $users= User::onlyTrashed()->paginate(2);
-        return view('admin.trashed',compact('users'));
+        return view ('admin.trashed',compact('users'));
     }
     
     public function restore($id)

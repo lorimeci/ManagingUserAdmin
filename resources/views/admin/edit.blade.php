@@ -21,8 +21,6 @@
                     @include('admin.partials.edit-form')
                 </div>
             </div>
-
-           
     
         </div>
        
