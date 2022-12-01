@@ -21,18 +21,17 @@ class TrashedUsersController extends Controller
         return back();
     } 
 
-    public function forcedelete($id)
+    public function forcedelete(User $user, $id)
     {  
-
-        $users = User::where('id',$id);
-        //dd($users);
+        
+        $users = User::onlyTrashed()->findOrFail($id);
         $imagepath = public_path('images/' .$users->avatar);
-        dd($imagepath);
-        if(File::exists($imagepath)){
-            File::delete($imagepath);
-        }
+
+            if(File::exists($imagepath)){
+                unlink($imagepath);
+            }
         $users->forceDelete();
-        // User::where('id',$id)->forceDelete();
         return redirect('/users/trashed');
+
     }
 }

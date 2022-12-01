@@ -124,11 +124,11 @@ class AdminController extends Controller
                
                  DB::commit();
                  return redirect('/users');
-        }catch(\Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-            return back()->with('error', $e->getMessage());
-        }
+            }catch(\Exception $e) {
+                DB::rollBack();
+                Log::error($e->getMessage());
+                return back()->with('error', $e->getMessage());
+            }
   
     }
 

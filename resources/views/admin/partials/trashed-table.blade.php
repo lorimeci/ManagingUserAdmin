@@ -14,6 +14,9 @@
                 Role
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    Avatar Image
+                    </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                 Action
                 </th>
             </tr>
@@ -33,6 +36,12 @@
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                     {{ $user->role}}
                     </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        <img 
+                        src="{{ asset('images/' . $user->avatar ?? '' )}}" 
+                        class="rounded-full w-32 mb-4 mx-auto"
+                        alt="Avatar">
+                        </td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                         @if(isset(Auth::user()->id))  
                             <div class=" flex-col space-y-2 ">             
