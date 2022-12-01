@@ -25,10 +25,10 @@ class ValidationUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>['required','string'],
-            'email'=>['required','email'],
+            'name'=>['required','string','max:225'],
+            'email'=>['required','email','max:225'],
             'phone'=>'required|numeric|min:10',
-            'address'=>['required'],
+            'address'=>['required','max:225'],
             'avatar'=>['nullable','sometimes','image','mimes:png,jpg,jpeg','max:10000'],
         ];
     }

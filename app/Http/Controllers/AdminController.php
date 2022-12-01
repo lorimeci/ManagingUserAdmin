@@ -109,12 +109,12 @@ class AdminController extends Controller
                          $imagepath = public_path('images/' .$users->avatar);
                         if(FacadesFile::exists($imagepath)){
                             FacadesFile::delete($imagepath);
-                        }else{
+                        }
                             $file = $request->file('avatar');
                             $name = time() .'-' .$request->name . '.' . $request->avatar->extension();
                             $file = $file->move(public_path('images') ,$name);
                             $users ->avatar = $name;
-                        }
+                        
                     }
                 $users->name = $request->input('name'); 
                 $users->email = $request->input('email');
