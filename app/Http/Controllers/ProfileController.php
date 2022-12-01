@@ -37,47 +37,33 @@ class ProfileController extends Controller
     {
         DB::beginTransaction();
             try{
-                $request->user()->fill($request->validated());
+                 $request->user()->fill($request->validated());
                  $users = User::findOrFail($request->user()->id);
-                 //dd($users);
-                if ($request->user()->isDirty('email')) { //if email has been edited since queried from db, or isnt saved at all
+                if ($request->user()->isDirty('email')) { 
                     $request->user()->email_verified_at = null;
                 }
-                if($request->hasFile('avatar')){
-                    //dd($request->hasFile('avatar'));
-                   $imagepath = public_path('images/' .$request->user()->avatar);
-                   //dd($imagepath);
-                   if(File::exists($imagepath)){
-                       File::delete($imagepath);
-                   }else{
-                     //$file = $request->user()->avatar;
-                     //dd($file); //takes old file path we need the new file path ,the on ein the input
-                       //dd($request->user()->avatar);
-                       $file = $request->file('avatar'); // this way we have the new file path that for example is girl.png
-                       //dd($file);
-                       $name = time() .'-' .$request->name . '.' . $request->file('avatar')->extension();
-                       //dd($name);
-                       //$file = Storage::disk('image')->put('file', $name);
-                      $file = $file->move(public_path('images') ,$name);
-                       //dd($file);
-                    //    $request->user()->avatar = $name;//this name path save it in the db
-                      
-                       $users->avatar = $name;
-                       //dd($users->avatar);
-                       //dd($$request ->avatar);
-                   }
-               }
+                    if($request->hasFile('avatar')){
+                    $imagepath = public_path('images/' .$request->user()->avatar);
+                        if(File::exists($imagepath)){
+                            File::delete($imagepath);
+                        }
+                        $file = $request->file('avatar'); 
+                        $name = time() .'-' .$request->name . '.' . $request->file('avatar')->extension();
+                        $file = $file->move(public_path('images') ,$name);
+                        $users->avatar = $name;
+                        $users->update();
+                    }
                 $users->phone = $request->user()->phone; 
                 $users->address = $request->user()->address;
                 
                 $request->user()->save();
                 DB::commit();
                 return Redirect::route('profile.edit')->with('status', 'profile-updated');
-        }catch(\Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-            return back()->with('error', $e->getMessage());
-        }
+            }catch(\Exception $e) {
+                DB::rollBack();
+                Log::error($e->getMessage());
+                return back()->with('error', $e->getMessage());
+            }
     }
 
 }
