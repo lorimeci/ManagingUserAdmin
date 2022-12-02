@@ -5,7 +5,6 @@ namespace App\Traits;
 use App\Models\User;
 
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 trait FileUploader
 {
@@ -36,14 +35,15 @@ trait FileUploader
         }
     }
         // delete file
-        public function deleteFile($fileName = 'images')
+        public function deleteFile(User $users)
         {
             try {
-                if ($fileName) {
-                    Storage::delete('public/images/'.$fileName);
+                $imagepath = public_path('images/' .$users->avatar);
+                if (File::exists($imagepath)) {
+                    unlink($imagepath);
                 }
-    
-                return true;
+                
+                return $imagepath;
             } catch (\Throwable $th) {
                 report($th);
     

@@ -44,17 +44,7 @@ class ProfileController extends Controller
                 if ($request->user()->isDirty('email')) { 
                     $request->user()->email_verified_at = null;
                 }
-                    // if($request->hasFile('avatar')){
-                    // $imagepath = public_path('images/' .$request->user()->avatar);
-                    //     if(File::exists($imagepath)){
-                    //         File::delete($imagepath);
-                    //     }
-                    //     $file = $request->file('avatar'); 
-                    //     $name = time() .'-' .$request->name . '.' . $request->file('avatar')->extension();
-                    //     $file = $file->move(public_path('images') ,$name);
-                    //     $users->avatar = $name;
-                    //     $users->update();
-                    // }
+                
                 $users->avatar = $this->uploadFile($request, $users); 
                 $users->phone = $request->user()->phone; 
                 $users->address = $request->user()->address;

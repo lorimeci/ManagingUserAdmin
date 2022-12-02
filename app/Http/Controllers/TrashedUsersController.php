@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Traits\FileUploader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class TrashedUsersController extends Controller
 {
+    use FileUploader;
     public function trashed()
     {
         $users= User::onlyTrashed()->paginate(2);
@@ -21,15 +23,12 @@ class TrashedUsersController extends Controller
         return back();
     } 
 
-    public function forcedelete(User $user, $id)
+    public function forcedelete($id)
     {  
         
         $users = User::onlyTrashed()->findOrFail($id);
-        $imagepath = public_path('images/' .$users->avatar);
-
-            if(File::exists($imagepath)){
-                unlink($imagepath);
-            }
+        $users->avatar = $this->deleteFile($users);
+    
         $users->forceDelete();
         return redirect('/users/trashed');
 
