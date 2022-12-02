@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use App\Traits\FileUploader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
+    use FileUploader;
     /**
      * Display the user's profile form.
      *
@@ -42,17 +44,18 @@ class ProfileController extends Controller
                 if ($request->user()->isDirty('email')) { 
                     $request->user()->email_verified_at = null;
                 }
-                    if($request->hasFile('avatar')){
-                    $imagepath = public_path('images/' .$request->user()->avatar);
-                        if(File::exists($imagepath)){
-                            File::delete($imagepath);
-                        }
-                        $file = $request->file('avatar'); 
-                        $name = time() .'-' .$request->name . '.' . $request->file('avatar')->extension();
-                        $file = $file->move(public_path('images') ,$name);
-                        $users->avatar = $name;
-                        $users->update();
-                    }
+                    // if($request->hasFile('avatar')){
+                    // $imagepath = public_path('images/' .$request->user()->avatar);
+                    //     if(File::exists($imagepath)){
+                    //         File::delete($imagepath);
+                    //     }
+                    //     $file = $request->file('avatar'); 
+                    //     $name = time() .'-' .$request->name . '.' . $request->file('avatar')->extension();
+                    //     $file = $file->move(public_path('images') ,$name);
+                    //     $users->avatar = $name;
+                    //     $users->update();
+                    // }
+                $users->avatar = $this->uploadFile($request, $users); 
                 $users->phone = $request->user()->phone; 
                 $users->address = $request->user()->address;
                 
