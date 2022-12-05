@@ -12,6 +12,19 @@
                  Trashed Users
              </a>
          </div>
+
+         <div class="pt-4">
+            <a href="users/importfile"
+            class="px-6 py-3 text-green-100 no-underline bg-green-500 rounded hover:bg-green-600  hover:text-green-200">
+                Upload a File 
+            </a>
+        </div>
+        <div class="pt-4">
+            <a href="{{ route('filepaginate') }}"
+            class="px-6 py-3 text-green-100 no-underline bg-green-500 rounded hover:bg-green-600  hover:text-green-200">
+                Countries 
+            </a>
+        </div>
  </div>
 
  @else

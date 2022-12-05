@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ExcelUploadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TrashedUsersController;
+use App\Models\Country;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use League\Csv\Reader;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,4 +47,12 @@ Route::middleware('auth','isAdmin')->group(function () {
     Route::get('/users/trashed', [TrashedUsersController::class, 'trashed'])->name('users.trashed');
     Route::get('/users/{id}/restore', [TrashedUsersController::class, 'restore'])->name('users.restore');
     Route::delete('/users/{id}/forcedelete', [TrashedUsersController::class, 'forcedelete'])->name('users.forcedelete');
+
+    Route::get('/users/importfile',[ExcelUploadController::class,'index'])->name('importfile');
+    Route::post('/users/uploadfile',[ExcelUploadController::class,'uploadCountry'])->name('uploadfile');
+    Route::get('/users/paginate',[ExcelUploadController::class,'paginate'])->name('filepaginate');
+    Route::get('/users/phone',[ExcelUploadController::class,'phone'])->name('phone');
+   
 });
+
+
