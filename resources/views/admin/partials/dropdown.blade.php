@@ -9,7 +9,7 @@
             placeholder="Select Country" >
                 <option value="" disabled selected> Select Country </option>     
                 @foreach($dropdown as $row) 
-                <option value="{{ $row->code }}"> {{ $row->name }} </option>
+                <option value="{{ $row->name }}"> {{ $row->name }} </option>
             @endforeach 
             </select>
         </div>    

@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExcelUploadController;
+use App\Http\Controllers\NewLoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TrashedUsersController;
 use App\Models\Country;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +25,13 @@ use League\Csv\Reader;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/newlogin',[NewLoginController::class,'create'])->name('newlogin');
+Route::post('/checklogin',[NewLoginController::class,'store'])->name('checklogin');
+Route::post('/newlogout',[NewLoginController::class,'destroy'])->name('newlogout');
+
+Route::get('/newregister',[RegistrationController::class,'create'])->name('newregister');
+Route::post('/store-users',[RegistrationController::class,'store'])->name('store-users');
 
 Route::get('/dashboard', function () {
     return view ('dashboard');

@@ -7,6 +7,7 @@ use App\Imports\CountryImport;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ExcelUploadController extends Controller
@@ -32,57 +33,31 @@ class ExcelUploadController extends Controller
     }
     public function phone(Request $request)
     {
-        //dd($request->all()) regex:/^([0-9\s\-\+\(\)]*)$/;
-        // 'regex:/\+(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|
-        //  2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|
-        //  4[987654310]|3[9643210]|3[70]|7|1)\d{1,14}$/ '  /^(((067|068|069)\d{7})){1}$/
-
         $contryCodes = [
-            "albania" => [
-                'regex' => '/^(\355)[0-9]{13}$/',
-                'digits' => 13
+            'Albania' => [
+                'regex' => '355[0-9]{10}',  
             ],
-            "kosovo" => [
-                'regex' => '[383]\d{1,11}',
-                'digits' => 11
+            'Kosovo' => [
+                'regex' => '383[0-9]{8}',
             ],
-            "Macedonia" => [
-                'regex' => '[389]\d{1,13}',
-                'digits' => 13
+            'Macedonia' => [
+                'regex' => '389[0-9]{10}',
             ],
-            "Egypt" => [
-                'regex' => '[20]\d{1,12}',
-                'digits' => 12
+            'Egypt' => [
+                'regex' => '20[0-9]{10}',
             ],
-
         ];
-        //dd($request->country);
-        //dd($contryCodes[$request->country]);
-        $countrycode = $request->country;
+        $country = $request->country;
         $phone = $request->phone;
-        if(isset($contryCodes[$countrycode])) {
-            //dd(isset($contryCodes));
-            $validated = $request->validate([
-                'phone' => ['required'],['regex:'.$contryCodes[$countrycode]['regex']], ['digits:'.$contryCodes[$phone]['digits']],
+        if(isset($contryCodes[$country])) {
+            $validated = Validator::make($request->all(), [
+                'phone' => ['required','regex:"'.$contryCodes[$country]["regex"].'"'], 
             ]);
-         return redirect()->route('filepaginate')->with('status', 'Valid!');  
-        }
-        else{
-            return redirect()->route('filepaginate')->with('status', ' Not Valid!');
+            if($validated->fails()) {
+                return redirect()->route('filepaginate')->with('status', 'Not Valid!'); 
+            }   
         }
         return redirect()->route('filepaginate')->with('status', 'Valid!'); 
-
-        // $request->validate([
-        //  'phone' => ['required'],['regex:/^([0-9\s\-\+\(\)]*)$/'],
-        // ]);
- 
-        //ky kodi s ka nevoje sepse e kontrollon me regex , duhet thjesht te gjej regex e duhur per cdo shtet 
-        // if ($countrycode === substr($phone,0,3) ){
-        //  return "Valid";
-        // }else{
-        //  return "Not Valid";
-        // }
-        
-    }
+    } 
 
 }
