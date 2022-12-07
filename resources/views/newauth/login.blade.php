@@ -18,12 +18,20 @@
             <div class = "text-red-700 bg-red-100 dark:bg-red-200 dark:text-red-800">{{ Session::get('fail') }}</div>
         @endif --}}
             <!-- Email Address -->
-            <div>
+            <div class ="justify-end mt-4">
                 <x-input-label for="email" :value="__('Email')" />
 
                 <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"  autofocus />
 
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
+
+            </div>
+            <div class ="justify-end mt-4">
+                @if (Route::has('password.change'))
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.change') }}">
+                    {{ __('Forgot your password?') }}
+                </a>
+            @endif
             </div>
 
             <!-- Password -->
@@ -47,16 +55,11 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
+                @if (Route::has('newregister'))
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('newregister') }}">
+                    {{ __('Register Here !') }}
+                </a>
                 @endif
-                <br>
-                {{-- <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('newregister') }}">
-                    {{ __('I want to register?') }}
-                </a> --}}
-
                 <x-primary-button class="ml-3">
                     {{ __('Log in') }}
                 </x-primary-button>

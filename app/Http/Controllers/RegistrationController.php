@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterUsersRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Message;
@@ -14,7 +15,6 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rules\Password;
 
 class RegistrationController extends Controller
 {
@@ -22,15 +22,9 @@ class RegistrationController extends Controller
     {
         return view('newauth.register');
     }
-    public function store(Request $request)
+    public function store(RegisterUsersRequest $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'phone' => ['required','numeric','min:10', 'unique:'.User::class],
-            'address' => 'required |string',
-            'password' => ['required', 'confirmed', Password::defaults()],
-        ]);
+        $request ->validated();
 
         $user = User::create([
             'name' => $request->name,

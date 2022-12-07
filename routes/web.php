@@ -3,6 +3,8 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExcelUploadController;
 use App\Http\Controllers\NewLoginController;
+use App\Http\Controllers\NewPaswController;
+use App\Http\Controllers\PasswordChangeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TrashedUsersController;
@@ -33,6 +35,11 @@ Route::post('/newlogout',[NewLoginController::class,'destroy'])->name('newlogout
 Route::get('/newregister',[RegistrationController::class,'create'])->name('newregister');
 Route::post('/store-users',[RegistrationController::class,'store'])->name('store-users');
 
+Route::get('/password-change',[PasswordChangeController::class,'show'])->name('password.change');
+Route::post('/password-change',[PasswordChangeController::class,'store'])->name('password.change.email');
+Route::get('/new-password',[NewPaswController::class,'create'])->name('reset-password');
+Route::get('/new-password',[NewPaswController::class,'store'])->name('newpassword.store');
+
 Route::get('/dashboard', function () {
     return view ('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -59,9 +66,8 @@ Route::middleware('auth','isAdmin')->group(function () {
 
     Route::get('/users/importfile',[ExcelUploadController::class,'index'])->name('importfile');
     Route::post('/users/uploadfile',[ExcelUploadController::class,'uploadCountry'])->name('uploadfile');
-    Route::get('/users/paginate',[ExcelUploadController::class,'paginate'])->name('filepaginate');
+    Route::get('/countries',[ExcelUploadController::class,'paginate'])->name('filepaginate');
     Route::get('/users/phone',[ExcelUploadController::class,'phone'])->name('phone');
    
 });
-
 
