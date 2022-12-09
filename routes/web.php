@@ -11,7 +11,6 @@ use App\Http\Controllers\TrashedUsersController;
 use App\Models\Country;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use League\Csv\Reader;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,18 +26,26 @@ use League\Csv\Reader;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::middleware('guest')->group(function(){
+    Route::get('/newregister',[RegistrationController::class,'create'])->name('newregister');
+    Route::post('/store-users',[RegistrationController::class,'store'])->name('store-users');
 
-Route::get('/newlogin',[NewLoginController::class,'create'])->name('newlogin');
-Route::post('/checklogin',[NewLoginController::class,'store'])->name('checklogin');
-Route::post('/newlogout',[NewLoginController::class,'destroy'])->name('newlogout');
+    Route::get('/newlogin',[NewLoginController::class,'create'])->name('newlogin');
+    Route::post('/checklogin',[NewLoginController::class,'store'])->name('checklogin');
 
-Route::get('/newregister',[RegistrationController::class,'create'])->name('newregister');
-Route::post('/store-users',[RegistrationController::class,'store'])->name('store-users');
+    Route::get('/password-change',[PasswordChangeController::class,'show'])->name('password.change');
+    Route::post('/password-change',[PasswordChangeController::class,'store'])->name('password.change.email');
 
-Route::get('/password-change',[PasswordChangeController::class,'show'])->name('password.change');
-Route::post('/password-change',[PasswordChangeController::class,'store'])->name('password.change.email');
-Route::get('/new-password',[NewPaswController::class,'create'])->name('reset-password');
-Route::get('/new-password',[NewPaswController::class,'store'])->name('newpassword.store');
+    Route::get('/new-password/{token}',[NewPaswController::class,'create'])->name('password.reset');
+    Route::post('/new-password',[NewPaswController::class,'store'])->name('newpassword.store');
+
+});
+
+Route::middleware('auth')->group(function(){
+    Route::post('/newlogout',[NewLoginController::class,'destroy'])->name('newlogout');
+
+});
+
 
 Route::get('/dashboard', function () {
     return view ('dashboard');

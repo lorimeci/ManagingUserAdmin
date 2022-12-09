@@ -9,19 +9,20 @@
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
+        @if(session()->has('error'))
+        <li class= "text-red-500 mb-4 list-none">
+            {{session('error')}}
+        </li>
+        @endif
         <form method="POST" action="{{ route('checklogin') }}">
+
             @csrf
-            {{-- @if (Session::has('success'))
-                <div class = "alert alert-success">{{ Session::get('success') }}</div>
-            @endif
-            @if (Session::has('fail'))
-            <div class = "text-red-700 bg-red-100 dark:bg-red-200 dark:text-red-800">{{ Session::get('fail') }}</div>
-        @endif --}}
+          
             <!-- Email Address -->
             <div class ="justify-end mt-4">
                 <x-input-label for="email" :value="__('Email')" />
 
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"  autofocus />
+                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"  />
 
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
 

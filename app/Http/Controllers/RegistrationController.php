@@ -15,6 +15,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rules\Password;
 
 class RegistrationController extends Controller
 {
@@ -24,8 +25,7 @@ class RegistrationController extends Controller
     }
     public function store(RegisterUsersRequest $request)
     {
-        $request ->validated();
-
+        $request->validated();
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,

@@ -9,10 +9,11 @@
             placeholder="Select Country" >
                 <option value="" disabled selected> Select Country </option>     
                 @foreach($dropdown as $row) 
-                <option value="{{ $row->name }}"> {{ $row->name }} </option>
+                <option value="{{ $row->id }}"> {{ $row->name }} </option>
             @endforeach 
             </select>
         </div>    
+  
         <div class="pt-4">    
           <input 
             type="text"
@@ -27,11 +28,15 @@
                         {{ session('status') }}
                     </div>
                 @endif
-            @error('phone')
-            <li class=" text-red-500 mb-4 list-none"> 
-                {{$message}}
-            </li>
-            @enderror
+                @if(session()->has('error'))
+                <li class= "text-red-500 mb-4 list-none">
+                    {{session('error')}}
+                </li>
+                @elseif (session()->has('success'))
+                <li class= "text-green-500 mb-4 list-none">
+                    {{session('success')}}
+                </li>
+                @endif
         
         </div>    
         <div class="pt-4">    

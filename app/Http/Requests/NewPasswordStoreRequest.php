@@ -3,11 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Providers\RouteServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
-class NewLoginRequest extends FormRequest
+
+
+class NewPasswordStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,11 +27,9 @@ class NewLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ];
     }
-
 }
-    
-

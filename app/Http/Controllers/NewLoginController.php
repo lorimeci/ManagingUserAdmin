@@ -16,41 +16,24 @@ class NewLoginController extends Controller
     {
         return view('newauth.login');
     }
-    // public function store(NewLoginRequest $request)
-    // {
-    //     // $request->authenticate();
-       
-    //     // $request->session()->regenerate();
-    //     $request->validated();
-    //     $user = User::where('email','=',$request->email)->first();
-    //     if($user){
-    //         if(Hash::check($request->password, $user->password)){
-
-    //         }else{
-    //             return back()->with('fail','Password doesnt match!');
-    //             $request->session()->put('loginId',$user->id);
-    //         }
-    //     }else{
-    //         return back()->with('fail','This email is not registred!');
-    //     }
-    //     return redirect()->intended(RouteServiceProvider::HOME);
-
-      
-   // }
-    public function store(LoginRequest $request)
+   
+    public function store(NewLoginRequest $request)
     {
-        $request->authenticate();
+        $request->validated();
+        if (!Auth::attempt(array('email' => $request['email'], 'password' => $request['password']))) {
+            return redirect()->route('newlogin')
+            ->with(['error' => "The provided credentials do not match our records."]);
+        }
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+         return redirect()->intended(RouteServiceProvider::HOME);
 
     }
    
     public function destroy(Request $request)
     {
-        Auth::guard('web')->logout();
-
+        Auth::logout();
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
