@@ -5,6 +5,8 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
+    {{-- ktu duhet gjithashtu me kontrollu nqs roli == null kur userat krijohen 
+        nga registation form ato nuk kan nje rol ne db , po useri kur registrohet nga forma roli = admin?? --}}
     @if (Auth::user() ->role == 'Guest')
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

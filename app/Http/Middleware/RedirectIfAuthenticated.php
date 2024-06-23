@@ -25,15 +25,6 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                return redirect(RouteServiceProvider::HOME);
 
-            //    $role = $request->user()->role;
-            //    switch ($role) {
-            //     case 'Admin':
-            //         return redirect('admin/dashboard');
-            //         break;
-            //     case 'Guest':
-            //         return redirect('guest/dashboard');
-            //         break;
-            //     }
             }
         }
 
